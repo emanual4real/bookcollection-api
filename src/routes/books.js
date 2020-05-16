@@ -7,8 +7,15 @@ let router = express.Router();
 // GET all books
 router.get('/', async function(req, res, next) {
   logger.info('GET /books/')
-  let books = await fetchBooks();
-  res.send(books);
+  try {
+    let books = await fetchBooks();
+    res.status(200).send(books);
+    // res.status(200).send(books.slice(0,10));
+  } catch(err) {
+    logger.error('GET /books/', err)
+    res.status(500).send(err);
+  }
+
 });
 
 // GET book with query string
@@ -27,9 +34,11 @@ router.patch('/update/', async function(req, res, next) {
 
   // Create new book
 router.post('/', async function(req, res, next) {
+  const { body } = req;
   logger.info('POST /books/')
-  let book = await addBook(req.query)
+  let book = await addBook(body)
   res.status(200).send(book)
+  res.status(200).send();
 });
 
 // Delete one book
