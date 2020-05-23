@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from 'body-parser';
 import bookRouter from "./routes/books";
+import userRouter from "./routes/users";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(bodyParser.json());
 
 // book routes
 app.use('/books/', bookRouter);
+app.use('/users/', userRouter);
 
 app.get('/', (req, res, next) => {
     res.send('hello world');
